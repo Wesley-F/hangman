@@ -16,7 +16,7 @@ def splash_screen():
 
 
 def get_puzzle():
-    return ("wesley")
+    return ("memes")
     
 def get_solved(puzzle, guesses):
     solved = ""
