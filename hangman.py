@@ -1,23 +1,42 @@
 # Hangman
 # Freshwater, Wesley
 
+import os
+import random
+
 def splash_screen():
-    print(" .----------------.  .----------------.  .-----------------. .----------------.  .----------------.  .----------------.  .-----------------. ")
-    print("| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. | ")
-    print("| |  ____  ____  | || |      __      | || | ____  _____  | || |    ______    | || | ____    ____ | || |      __      | || | ____  _____  | | ")
-    print("| | |_   ||   _| | || |     /  \     | || ||_   \|_   _| | || |  .' ___  |   | || ||_   \  /   _|| || |     /  \     | || ||_   \|_   _| | | ")
-    print("| |   | |__| |   | || |    / /\ \    | || |  |   \ | |   | || | / .'   \_|   | || |  |   \/   |  | || |    / /\ \    | || |  |   \ | |   | | ")
-    print("| |   |  __  |   | || |   / ____ \   | || |  | |\ \| |   | || | | |    ____  | || |  | |\  /| |  | || |   / ____ \   | || |  | |\ \| |   | | ")
-    print("| |  _| |  | |_  | || | _/ /    \ \_ | || | _| |_\   |_  | || | \ `.___]  _| | || | _| |_\/_| |_ | || | _/ /    \ \_ | || | _| |_\   |_  | | ")
-    print("| | |____||____| | || ||____|  |____|| || ||_____|\____| | || |  `._____.'   | || ||_____||_____|| || ||____|  |____|| || ||_____|\____| | | ")
-    print("| |              | || |              | || |              | || |              | || |              | || |              | || |              | | ")
-    print("| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' | ")
-    print(" '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  ")
+    with open("art/start_screen.txt", 'r') as f:
+        lines = f.read()
+        print(lines)
 
 
 def get_puzzle():
-    return ("memes")
-    
+    path = "data"
+
+    file_names = os.listdir(path)
+
+    for i, f in enumerate(file_names):
+        with open(path + "/" + file_names[i], 'r') as f:
+            lines = f.read().splitlines()
+            category = lines[0]
+            
+        print(str(i + 1) + ") " + category)
+
+    choice = input('pick one ')
+    choice = int(choice) - 1
+
+    file = path + "/" + file_names[choice]
+
+    with open(file, 'r') as f:
+        lines = f.read().splitlines()
+
+
+    category_name = lines[0]
+    puzzle = random.choice(lines[1:])
+
+    print(category_name)
+    return puzzle
+
 def get_solved(puzzle, guesses):
     solved = ""
 
@@ -34,7 +53,7 @@ def get_guess(name):
         letter = input(name + ", guess a letter: ")
         print()
         
-        if len(letter) == 1 and letter.isalpha():
+        if len(letter) == 1 and letter.isalpha() or letter == " ":
             return letter
         else:
             print(name + ", please enter a single letter.")
@@ -42,46 +61,39 @@ def get_guess(name):
 
 def display_board(solved, strikes, guesses):
     if strikes == 0:
-        print("            __                                                                       ")
-        print("(\,--------'()'--o                                                             \ o / ")
-        print(' (_    ___    /~"                                                                |   ')
-        print("  (_)_)  (_)_)                                                                  / \  ")
+        with open("art/0.txt", 'r') as f:
+            lines = f.read()
+            print(lines)
         
     elif strikes == 1:
-        print("                      __                                                             ")
-        print("          (\,--------'()'--o                                                   \ o / ")
-        print('           (_    ___    /~"                                                      |   ')
-        print("            (_)_)  (_)_)                                                        / \  ")
+        with open("art/1.txt", 'r') as f:
+            lines = f.read()
+            print(lines)
 
     elif strikes == 2:
-        print("                                __                                                  ")
-        print("                    (\,--------'()'--o                                        \ o / ")
-        print('                     (_    ___    /~"                                           |   ')
-        print("                      (_)_)  (_)_)                                             / \  ")
+        with open("art/2.txt", 'r') as f:
+            lines = f.read()
+            print(lines)
 
     elif strikes == 3:
-        print("                                          __                                        ")
-        print("                              (\,--------'()'--o                              \ o / ")
-        print('                               (_    ___    /~"                                 |   ')
-        print("                                (_)_)  (_)_)                                   / \  ")
+        with open("art/3.txt", 'r') as f:
+            lines = f.read()
+            print(lines)  
 
     elif strikes == 4:
-        print("                                                    __                              ")
-        print("                                        (\,--------'()'--o                    \ o / ")
-        print('                                         (_    ___    /~"                       |   ')
-        print("                                          (_)_)  (_)_)                         / \  ")
+        with open("art/4.txt", 'r') as f:
+            lines = f.read()
+            print(lines)
 
     elif strikes == 5:
-        print("                                                              __                    ")
-        print("                                                  (\,--------'()'--o          \ o / ")
-        print('                                                   (_    ___    /~"             |   ')
-        print("                                                    (_)_)  (_)_)               / \  ")
+        with open("art/5.txt", 'r') as f:
+            lines = f.read()
+            print(lines) 
 
     elif strikes == 6:
-        print("                                                                       __           ")
-        print("                                                           (\,--------'()'--o \ o / ")
-        print('                                                            (_    ___    /~"    |   ')
-        print("                                                             (_)_)  (_)_)      / \  ")
+        with open("art/6.txt", 'r') as f:
+            lines = f.read()
+            print(lines)  
    
 
     
@@ -90,10 +102,11 @@ def display_board(solved, strikes, guesses):
     print(guesses)
     print()
 
-def show_result(strikes, limit, name):
+def show_result(strikes, limit, name, puzzle):
     if strikes >= limit:
         print(name + ", you got to pet this awesome puppy! But you still lost the game.")
         print()
+        print("The word was " + puzzle + "!")
     else:
         print(name + ", you win!")
         print()
@@ -112,19 +125,10 @@ def play_again(name):
             print()
 
 def credits_screen(): 
-    print(" __       __                      __                                  __      __          __  ______     __          __  ______    ______     __    ________ ")
-    print("/  |  _  /  |                    /  |                               _/  |   _/  |        /  |/      \  _/  |        /  |/      \  /      \  _/  |  /        |")
-    print("$$ | / \ $$ |  ______    _______ $$ |  ______   __    __           / $$ |  / $$ |       /$$//$$$$$$  |/ $$ |       /$$//$$$$$$  |/$$$$$$  |/ $$ |  $$$$$$$$/ ")
-    print("$$ |/$  \$$ | /      \  /       |$$ | /      \ /  |  /  |          $$$$ |  $$$$ |      /$$/ $$____$$ |$$$$ |      /$$/ $$____$$ |$$$  \$$ |$$$$ |      /$$/  ")
-    print("$$ /$$$  $$ |/$$$$$$  |/$$$$$$$/ $$ |/$$$$$$  |$$ |  $$ |            $$ |    $$ |     /$$/   /    $$/   $$ |     /$$/   /    $$/ $$$$  $$ |  $$ |     /$$/   ")
-    print("$$ $$/$$ $$ |$$    $$ |$$      \ $$ |$$    $$ |$$ |  $$ |            $$ |    $$ |    /$$/   /$$$$$$/    $$ |    /$$/   /$$$$$$/  $$ $$ $$ |  $$ |    /$$/    ")
-    print("$$$$/  $$$$ |$$$$$$$$/  $$$$$$  |$$ |$$$$$$$$/ $$ \__$$ | __        _$$ |_  _$$ |_  /$$/    $$ |_____  _$$ |_  /$$/    $$ |_____ $$ \$$$$ | _$$ |_  /$$/     ")
-    print("$$$/    $$$ |$$       |/     $$/ $$ |$$       |$$    $$ |/  |      / $$   |/ $$   |/$$/     $$       |/ $$   |/$$/     $$       |$$   $$$/ / $$   |/$$/      ")
-    print("$$/      $$/  $$$$$$$/ $$$$$$$/  $$/  $$$$$$$/  $$$$$$$ |$$/       $$$$$$/ $$$$$$/ $$/      $$$$$$$$/ $$$$$$/ $$/      $$$$$$$$/  $$$$$$/  $$$$$$/ $$/       ")
-    print("                                               /  \__$$ |$/                                                                                                  ")
-    print("                                               $$    $$/                                                                                                     ")
-    print("                                                $$$$$$/                                                                                                      ")
-    
+    with open("art/credits.txt", 'r') as f:
+        lines = f.read()
+        print(lines)
+        
 def play(name):
     strikes = 0
     puzzle = get_puzzle()
@@ -145,7 +149,7 @@ def play(name):
         solved = get_solved(puzzle, guesses)
         display_board(solved, strikes, guesses)
 
-    show_result(strikes, limit, name)
+    show_result(strikes, limit, name, puzzle)
 
 repeat = True
 splash_screen()
